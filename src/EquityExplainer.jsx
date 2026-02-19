@@ -5,6 +5,8 @@ import Screen3 from './screens/Screen3';
 import Screen4 from './screens/Screen4';
 import Screen5 from './screens/Screen5';
 import ScreenEMI from './screens/ScreenEMI';
+import LoanPreparationScreen from './screens/LoanPreparationScreen';
+import logo from "./assets/logo.jpg";
 
 export default function EquityExplainer() {
   const [currentScreen, setCurrentScreen] = useState(1);
@@ -68,11 +70,10 @@ export default function EquityExplainer() {
         businessMetrics={businessMetrics}
         onBack={handleBack}
         onContinueWithLoan={() => {
-          handleNavigateTo(3);
+          handleNavigateTo('loanprep');
         }}
         onChoosePartnership={() => {
-          setChosenPath('partnership');
-          handleNavigateTo(3);
+          handleBack();
         }}
       />
     ),
@@ -112,6 +113,25 @@ export default function EquityExplainer() {
         onBack={handleBack}
       />
     ),
+    loanprep: (
+      <LoanPreparationScreen
+        onRestart={() => {
+          setCurrentScreen(1);
+          setScreenHistory([1]);
+          setChosenPath(null);
+          setBusinessMetrics({
+            currentSales: 50000,
+            profitMargin: 20,
+            requiredInvestment: 500000,
+            initialIncome: 10000,
+            expandedIncome: 18000,
+            jobsCreated: 3,
+            ownershipBefore: 100,
+            ownershipAfter: 80,
+          });
+        }}
+      />
+    ),
   };
 
   return (
@@ -119,7 +139,14 @@ export default function EquityExplainer() {
       <div className="max-w-md mx-auto h-screen flex flex-col">
         {/* Header with progress */}
         <div className="bg-white shadow-sm px-4 py-3 flex justify-between items-center">
-          {currentScreen !== 1 && (
+          {currentScreen == 1 && (
+            <button
+              onClick={handleBack}
+              className="text-lg font-bold text-gray-200 transition-all"
+            >
+              ← Back
+            </button>
+          )}{currentScreen !== 1 && (
             <button
               onClick={handleBack}
               className="text-lg font-bold text-gray-700 hover:text-gray-900 transition-all"
@@ -127,10 +154,14 @@ export default function EquityExplainer() {
               ← Back
             </button>
           )}
-          {currentScreen === 1 && <div className="w-8"></div>}
-          <h1 className="text-lg font-bold text-green-700">Grow Business</h1>
+          {currentScreen === 0 && <div className="w-8"></div>}
+          <img 
+            src={logo} 
+            alt="Quiver Logo" 
+            className="w-32 h-auto" 
+          />
           <div className="text-sm text-gray-600 min-w-fit">
-            {currentScreen === 'emi' ? 'EMI' : `Screen ${currentScreen}/5`}
+            {currentScreen === 'emi' ? 'EMI' : currentScreen === 'loanprep' ? 'Loan Prep' : `Screen ${currentScreen}/5`}
           </div>
         </div>
 
@@ -138,7 +169,7 @@ export default function EquityExplainer() {
         <div className="bg-gray-200 h-1">
           <div
             className="bg-green-600 h-1 transition-all duration-500"
-            style={{ width: `${currentScreen === 'emi' ? '25%' : (currentScreen / 5) * 100}%` }}
+            style={{ width: `${currentScreen === 'emi' ? '25%' : currentScreen === 'loanprep' ? '25%' : (currentScreen / 5) * 100}%` }}
           ></div>
         </div>
 

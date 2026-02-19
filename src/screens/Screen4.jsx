@@ -96,15 +96,23 @@ export default function Screen4({ businessMetrics, onNext, onBack }) {
         </div>
       </div>
 
-      {/* Key Learning */}
-      <div className="bg-green-50 border-2 border-green-400 rounded-lg p-4 mb-6">
-        <p className="text-center text-gray-800 font-semibold mb-2">
+      {/* Clarifier: Equity vs Royalty */}
+      <div className="text-center mb-4 px-2">
+        <p className="text-xs text-gray-700 leading-relaxed">
+          Your partner owns <span className="font-semibold">15% equity stake</span> in the business, but only takes <span className="font-semibold">3% of your monthly sales</span> as income.
+        </p>
+      </div>
+
+      {/* Key Learning - Hero Element */}
+      <div className="bg-gradient-to-br from-green-100 via-green-50 to-green-100 border-2 border-green-500 rounded-xl p-6 mb-6 shadow-md">
+        <p className="text-center text-gray-800 font-bold text-lg mb-3">
           ✨ Key Insight:
         </p>
-        <p className="text-center text-gray-700 text-sm">
-          "Partner takes 3% as royalty from your <span className="font-bold text-orange-600">SALES</span>,
-          <br />
-          not from your profit. You keep more!"
+        <p className="text-center text-gray-800 text-sm font-semibold leading-relaxed mb-3">
+          Partner takes 3% as royalty from your <span className="font-bold text-orange-600 text-base">SALES</span>, not from your profit. You keep more!
+        </p>
+        <p className="text-center text-gray-700 text-xs italic">
+          Even in a bad month, you never pay more than 3% of what you actually sold.
         </p>
       </div>
 
@@ -171,7 +179,7 @@ export default function Screen4({ businessMetrics, onNext, onBack }) {
       {/* User Emotion */}
       <div className="text-center mb-4">
         <p className="text-lg italic text-green-700 font-semibold">
-          "Sharing helped me grow."
+          "I kept 85% of my business and grew it 80% — that's Quiver."
         </p>
       </div>
 

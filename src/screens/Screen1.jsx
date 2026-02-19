@@ -41,14 +41,54 @@ export default function Screen1({ onNext, onUpdateMetrics, businessMetrics }) {
     ? Math.round((parseInt(currentSales)) * ((parseInt(profitMargin)) / 100))
     : 0;
 
+  // Dynamic problems based on inputs
+  const getProblemsList = () => {
+    const problems = [];
+    const sales = parseInt(currentSales) || 50000;
+    const margin = parseInt(profitMargin) || 20;
+    const investment = parseInt(requiredInvestment) || 500000;
+    const income = Math.round((sales * margin) / 100);
+
+    // Problem 1: Thin margins
+    if (margin < 25) {
+      problems.push("Your margins are too thin to save capital");
+    }
+
+    // Problem 2: Years to save
+    if (investment > 0 && income > 0) {
+      const monthsToSave = Math.ceil(investment / income);
+      if (monthsToSave > 12) {
+        const years = Math.round(monthsToSave / 12);
+        problems.push(`Saving alone would take ${years} years`);
+      }
+    }
+
+    // Always show this
+    problems.push("Growth is stuck without outside capital");
+
+    return problems.slice(0, 3); // Show max 3 problems
+  };
+
+  const problems = getProblemsList();
+
+  // Calculate months to save for dynamic quote
+  const sales = parseInt(currentSales) || 50000;
+  const margin = parseInt(profitMargin) || 20;
+  const investment = parseInt(requiredInvestment) || 500000;
+  const income = Math.round((sales * margin) / 100);
+  const monthsToSave = income > 0 ? Math.ceil(investment / income) : 0;
+
   return (
     <div className="px-4 py-6 h-full flex flex-col justify-between overflow-y-auto">
       {/* Title */}
-      <div className="text-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">
+      <div className="text-center mb-2">
+        <h2 className="text-3xl font-bold text-gray-800 mb-1">
           अपना व्यवसाय आज
         </h2>
-        <p className="text-gray-600">Your Business Today</p>
+        <p className="text-gray-600 mb-3">Your Business Today</p>
+        <p className="text-sm text-gray-500 max-w-xs mx-auto">
+          Tell us about your business and we'll show you exactly how to grow it.
+        </p>
       </div>
 
       {/* Input Form */}
@@ -59,7 +99,7 @@ export default function Screen1({ onNext, onUpdateMetrics, businessMetrics }) {
           {/* Current Sales */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Current Monthly Sales (₹)
+              What is your total sales per month? (₹)
             </label>
             <input
               type="number"
@@ -73,7 +113,7 @@ export default function Screen1({ onNext, onUpdateMetrics, businessMetrics }) {
           {/* Profit Margin */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Profit Margin (%)
+              What % of that is your profit?
             </label>
             <input
               type="number"
@@ -88,7 +128,7 @@ export default function Screen1({ onNext, onUpdateMetrics, businessMetrics }) {
           {/* Required Investment */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Required Investment (₹)
+              How much money do you need to grow?
             </label>
             <input
               type="number"
@@ -124,26 +164,36 @@ export default function Screen1({ onNext, onUpdateMetrics, businessMetrics }) {
 
       {/* Business Info Card */}
       <div className="bg-white rounded-xl shadow-md p-4 mb-6 border-l-4 border-green-600">
-        <div className="mb-3">
-          <p className="text-sm text-gray-600">Monthly Income</p>
+        <div className="mb-4">
+          <p className="text-sm text-gray-600">Your Current Monthly Profit</p>
           <p className="text-2xl font-bold text-green-700">₹{monthlyIncome.toLocaleString('en-IN')}</p>
         </div>
         <div>
-          <p className="text-sm text-gray-700 font-semibold mb-2">Problems:</p>
-          <ul className="space-y-1 text-sm text-gray-700">
-            <li>⚠️ Cannot serve all customers</li>
-            <li>⚠️ No new equipment</li>
-            <li>⚠️ Limited workers</li>
+          <p className="text-sm text-gray-700 font-semibold mb-2">Your Challenges:</p>
+          <ul className="space-y-2 text-sm text-gray-700">
+            {problems.length > 0 ? (
+              problems.map((problem, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <span className="inline-block w-2 h-2 bg-red-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                  <span>{problem}</span>
+                </li>
+              ))
+            ) : (
+              <li>Growth is stuck without outside capital</li>
+            )}
           </ul>
         </div>
       </div>
 
-      {/* User emotion text */}
-      <div className="text-center mb-4">
-        <p className="text-lg italic text-gray-700">
-          "I am working hard but stuck."
-        </p>
-      </div>
+      {/* Dynamic insight text */}
+      {monthlyIncome > 0 && (
+        <div className="text-center mb-4">
+          <p className="text-base font-semibold text-gray-800">
+            At this rate, it would take {monthsToSave} months to save ₹{investment.toLocaleString('en-IN')} on your own.
+          </p>
+          <p className="text-sm text-gray-500 mt-2">{Math.round(monthsToSave / 12)} years of waiting...</p>
+        </div>
+      )}
 
       {/* CTA Button */}
       <button

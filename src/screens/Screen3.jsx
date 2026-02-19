@@ -28,9 +28,9 @@ export default function Screen3({ chosenPath, businessMetrics, onNext, onBack })
       {/* Title */}
       <div className="text-center mb-4">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          व्यवसाय का विस्तार
+          साझेदारी का फायदा
         </h2>
-        <p className="text-sm text-gray-600">Business Expansion</p>
+        <p className="text-sm text-gray-600">Partnership Benefits</p>
       </div>
 
       {/* Before & After Comparison */}
@@ -57,37 +57,43 @@ export default function Screen3({ chosenPath, businessMetrics, onNext, onBack })
             <p className="text-xs font-bold">Bigger Shop</p>
             <p className="text-2xl font-bold">₹{Math.floor(currentIncome).toLocaleString('en-IN')}/mo</p>
           </div>
+          <p className="text-xs text-green-700 font-semibold mt-2">With Quiver's network and guidance</p>
         </div>
       </div>
 
       {/* Growth Elements */}
       {animateGrowth && (
-        <div className="bg-white rounded-lg p-4 mb-6 animate-slideUp">
+        <div className="bg-white rounded-lg p-4 mb-6 animate-slideUp border border-blue-200">
           <p className="text-sm font-semibold text-gray-800 mb-3">
-            ✨ Business Upgrades:
+            💼 What Your Partner Brings:
           </p>
-          <div className="space-y-2">
-            <div className="flex items-center gap-3 p-2 bg-blue-50 rounded">
-              <span className="text-xl">⚙️</span>
-              <span className="text-sm text-gray-700">New Machines Added</span>
+          <div className="space-y-3">
+            <div className="flex items-start gap-3 p-3 bg-purple-50 rounded-lg border-l-4 border-purple-600">
+              <span className="text-2xl">🎓</span>
+              <div>
+                <p className="font-semibold text-gray-800">Mentorship</p>
+                <p className="text-xs text-gray-600 mt-1">A Quiver mentor who has built businesses before — guiding you on decisions, not just giving money.</p>
+              </div>
             </div>
-            <div className="flex items-center gap-3 p-2 bg-blue-50 rounded">
-              <span className="text-xl">👥</span>
-              <span className="text-sm text-gray-700">+3 New Workers Hired</span>
+            <div className="flex items-start gap-3 p-3 bg-orange-50 rounded-lg border-l-4 border-orange-600">
+              <span className="text-2xl">🌐</span>
+              <div>
+                <p className="font-semibold text-gray-800">Market Linkage</p>
+                <p className="text-xs text-gray-600 mt-1">Connections to buyers, distributors, and markets you can't reach alone.</p>
+              </div>
             </div>
-            <div className="flex items-center gap-3 p-2 bg-blue-50 rounded">
-              <span className="text-xl">👨‍👩‍👧‍👦</span>
-              <span className="text-sm text-gray-700">More Customers Served</span>
-            </div>
-            <div className="flex items-center gap-3 p-2 bg-blue-50 rounded">
-              <span className="text-xl">🌾</span>
-              <span className="text-sm text-gray-700">Village Economy Boost</span>
+            <div className="flex items-start gap-3 p-3 bg-green-50 rounded-lg border-l-4 border-green-600">
+              <span className="text-2xl">💰</span>
+              <div>
+                <p className="font-semibold text-gray-800">Investment</p>
+                <p className="text-xs text-gray-600 mt-1">₹{businessMetrics.requiredInvestment.toLocaleString('en-IN')} to buy equipment, hire staff, and serve every customer — no loan EMI.</p>
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Income Growth Chart */}
+      {/* Income Growth Chart
       {animateGrowth && (
         <div className="bg-white rounded-lg p-4 mb-6 animate-slideUp">
           <p className="font-semibold text-gray-800 mb-3">Income Growth:</p>
@@ -113,16 +119,14 @@ export default function Screen3({ chosenPath, businessMetrics, onNext, onBack })
               </div>
             </div>
           </div>
-          <p className="text-lg font-bold text-green-700 text-center mt-3">
-            📈 {Math.round(((businessMetrics.expandedIncome - businessMetrics.initialIncome) / businessMetrics.initialIncome) * 100)}% Growth!
-          </p>
+
         </div>
-      )}
+      )} */}
 
       {/* User Emotion */}
       <div className="text-center mb-4">
-        <p className="text-lg italic text-green-700 font-semibold">
-          "My business is growing!"
+        <p className="text-lg italic text-blue-700 font-semibold">
+          "With Quiver, I didn't just get money — I got a partner who knew the way."
         </p>
       </div>
 
@@ -133,7 +137,7 @@ export default function Screen3({ chosenPath, businessMetrics, onNext, onBack })
       >
         समझें - इक्विटी क्या है?
         <br />
-        Continue →
+        See How Equity Works →
       </button>
 
       <style>{`

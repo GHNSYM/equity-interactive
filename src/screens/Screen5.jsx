@@ -50,9 +50,9 @@ Learn how equity partnerships can help your business grow!
       </div>
 
       {/* Success Visual */}
-      <div className="bg-gradient-to-br from-yellow-100 to-green-100 rounded-2xl p-6 mb-4 text-center">
-        <div className="text-6xl mb-3 animate-bounce">🎉</div>
-        <p className="text-lg font-bold text-gray-800">Business Expansion Complete!</p>
+      <div className="bg-gradient-to-br from-yellow-100 to-green-100 rounded-2xl p-8 mb-4 text-center">
+        <div className="text-8xl mb-4 animate-bounce">🎉</div>
+        <p className="text-2xl font-bold text-gray-800">Business Expansion Complete!</p>
         <p className="text-sm text-gray-600 mt-2">आपका व्यवसाय फल-फूल रहा है</p>
       </div>
 
@@ -79,33 +79,7 @@ Learn how equity partnerships can help your business grow!
               <div className="flex-1">
                 <p className="text-sm text-gray-600">Jobs Created</p>
                 <p className="text-lg font-bold text-blue-700">
-                  {businessMetrics.jobsCreated} New Workers Employed
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Community Impact */}
-          <div className="bg-white border-l-4 border-yellow-600 rounded-lg p-4">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🌾</span>
-              <div className="flex-1">
-                <p className="text-sm text-gray-600">Community Benefit</p>
-                <p className="text-lg font-bold text-yellow-700">
-                  Village Economy Strengthened
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Expansion */}
-          <div className="bg-white border-l-4 border-purple-600 rounded-lg p-4">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🏬</span>
-              <div className="flex-1">
-                <p className="text-sm text-gray-600">Business</p>
-                <p className="text-lg font-bold text-purple-700">
-                  Fully Expanded & Equipped
+                  New Workers Employed
                 </p>
               </div>
             </div>
@@ -113,27 +87,11 @@ Learn how equity partnerships can help your business grow!
         </div>
       )}
 
-      {/* Key Learnings */}
-      <div className="bg-green-50 rounded-lg p-4 mb-4">
-        <p className="font-semibold text-gray-800 mb-3">What You Learned:</p>
-        <ul className="space-y-2 text-sm text-gray-700">
-          <li className="flex gap-2">
-            <span>✅</span>
-            <span>Business growth needs capital</span>
-          </li>
-          <li className="flex gap-2">
-            <span>✅</span>
-            <span>Loans create monthly pressure</span>
-          </li>
-          <li className="flex gap-2">
-            <span>✅</span>
-            <span>Partnership enables sustainable growth</span>
-          </li>
-          <li className="flex gap-2">
-            <span>✅</span>
-            <span>Equity sharing benefits everyone</span>
-          </li>
-        </ul>
+      {/* Brand Statement */}
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-5 mb-4 border-2 border-blue-400">
+        <p className="text-center text-gray-800 font-bold text-base leading-relaxed">
+          This is what Quiver does — connects you with a partner who invests, mentors, and grows with you.
+        </p>
       </div>
 
       {/* Share Section */}
@@ -163,7 +121,7 @@ Learn how equity partnerships can help your business grow!
       {/* User Emotion */}
       <div className="text-center mb-4">
         <p className="text-lg italic text-green-700 font-semibold">
-          "I built this success!"
+          "I built this with Quiver."
         </p>
       </div>
 
@@ -173,10 +131,7 @@ Learn how equity partnerships can help your business grow!
           onClick={onRestart}
           className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-4 rounded-xl text-sm hover:shadow-lg transition-all duration-300 transform hover:scale-105"
         >
-          🔁 Try Another<br />Business
-        </button>
-        <button className="flex-1 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold py-4 rounded-xl text-sm hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-          📧 Learn More
+          🔁 Try Another Business
         </button>
       </div>
 

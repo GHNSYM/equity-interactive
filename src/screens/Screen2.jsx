@@ -24,109 +24,125 @@ export default function Screen2({ businessMetrics,  onChooseLoan, onChoosePartne
   return (
     <div className="px-4 py-6 h-full flex flex-col">
       {/* Title */}
-      <div className="text-center mb-4">
+      <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">
           आपको ₹{(requiredInvestment / 100000).toFixed(0)},00,000 की जरूरत है
         </h2>
         <p className="text-sm text-gray-600">You need ₹{requiredInvestment.toLocaleString('en-IN')} to expand</p>
         <p className="text-sm text-gray-600 mt-1">(Current Income: ₹{currentIncome.toLocaleString('en-IN')}/month)</p>
-        <p className="text-lg font-semibold text-gray-800 mt-2">
-          Choose Your Path:
-        </p>
+        
+        <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+          <p className="text-sm text-gray-700">
+            Here are two ways to get there. One costs you every month. One grows with you.
+          </p>
+        </div>
       </div>
 
-      <div className="flex-1 flex flex-col gap-4 mb-4">
+      <div className="flex-1 flex flex-col gap-5 mb-4">
         {/* Option A - Loan */}
         <div
           onClick={() => handleOptionSelect('loan')}
-          className="border-2 border-gray-300 bg-white hover:border-red-400 rounded-xl p-4 cursor-pointer transition-all duration-300"
+          className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-300 ${
+            selectedOption === 'loan' ? 'border-red-500 bg-red-50 shadow-lg' : 'border-gray-300 bg-white hover:border-red-400'
+          }`}
         >
           <div className="flex items-start gap-3 mb-3">
             <span className="text-3xl">🏦</span>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-gray-800">Option A: Loan</h3>
-              <p className="text-xs text-gray-600">कर्ज लें</p>
+              <h3 className="text-lg font-bold text-gray-800">Loan</h3>
+              <p className="text-xs text-gray-600">From a bank</p>
             </div>
           </div>
-          <div className="text-sm text-gray-700">
-            <p className="font-semibold mb-2">Bank gives you ₹{(requiredInvestment / 100000).toFixed(0)},00,000</p>
-            <p className="text-gray-600">
-              See detailed EMI breakdown →
+          <div className="space-y-2 text-sm">
+            <p className="font-semibold text-gray-800">₹{(requiredInvestment / 100000).toFixed(0)},00,000 available</p>
+            <p className="text-gray-700">
+              <span className="font-medium">Fixed EMI every month</span> — whether business is good or bad.
             </p>
+            {selectedOption === 'loan' && (
+              <p className="text-gray-600 pt-2">Tap to see EMI calculator →</p>
+            )}
           </div>
         </div>
 
         {/* Option B - Partnership */}
         <div
           onClick={() => handleOptionSelect('partnership')}
-          className={`border-2 rounded-xl p-4 cursor-pointer transition-all duration-300 ${
-            selectedOption === 'partnership'
-              ? 'border-green-600 bg-green-50 shadow-lg'
-              : 'border-gray-300 bg-white hover:border-green-400'
+          className={`border-2 rounded-xl p-5 cursor-pointer transition-all duration-300 transform ${
+            selectedOption === 'partnership' 
+              ? 'border-green-600 bg-green-50 shadow-lg scale-105' 
+              : 'border-green-300 bg-white hover:border-green-500 scale-100'
           }`}
         >
+          {/* Recommended Badge */}
           <div className="flex items-start gap-3 mb-3">
             <span className="text-3xl">🤝</span>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-gray-800">
-                Option B: Partnership
-              </h3>
-              <p className="text-xs text-gray-600">साझेदार खोजें</p>
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-bold text-gray-800">Partnership with Quiver</h3>
+                {selectedOption !== 'partnership' && (
+                  <span className="text-xs font-semibold bg-green-200 text-green-800 px-2 py-1 rounded">✓ Better for you</span>
+                )}
+              </div>
+              <p className="text-xs text-gray-600">Mentored growth</p>
             </div>
           </div>
-
-          {/* Default view */}
-          {showOutcome !== 'partnership' && (
-            <div className="text-sm text-gray-700">
-              <p className="font-semibold mb-2">Partner invests ₹{(requiredInvestment / 100000).toFixed(0)},00,000</p>
-              <p className="text-gray-600">
-                You grow together, earn together...
-              </p>
-            </div>
-          )}
-
-          {/* Outcome animation */}
-          {showOutcome === 'partnership' && (
-            <div className="space-y-3 animate-fadeIn">
-              <div className="bg-white p-2 rounded border border-green-200">
-                <p className="text-sm font-semibold text-green-700">✨ No Fixed EMI</p>
-                <p className="text-xs text-gray-600">Partner earns when YOU earn</p>
+          <div className="space-y-3 text-sm">
+            <div>
+              <p className="font-semibold text-gray-800">₹2,00,000 investment</p>
+              <div className="bg-green-100 border border-green-400 p-3 rounded-lg mt-2">
+                <p className="text-gray-800 font-semibold text-sm">No fixed EMI. Your partner earns only when you earn.</p>
               </div>
-
-              <div className="bg-green-100 p-3 rounded border-l-4 border-green-600">
-                <p className="text-sm font-semibold">✅ Benefits:</p>
-                <div className="mt-2 space-y-1 text-sm">
-                  <div className="flex justify-between">
-                    <span>📈 Good season (high sales):</span>
-                    <span className="font-bold text-green-700">You earn more</span>
+            </div>
+            
+            {selectedOption === 'partnership' && (
+              <div className="bg-white p-3 rounded-lg border border-green-200 space-y-2">
+                <p className="text-gray-700">
+                  <span className="font-medium">Quiver connects you with the right partner</span> — and stays with you as your mentor throughout.
+                </p>
+                <div className="grid grid-cols-3 gap-2 mt-3">
+                  <div className="bg-blue-50 border border-blue-300 p-3 rounded-lg text-center">
+                    <div className="text-2xl mb-2">💰</div>
+                    <p className="text-xs font-semibold text-gray-800">Capital to expand</p>
                   </div>
-                  <div className="flex justify-between">
-                    <span>🌧️ Rainy season (slow sales):</span>
-                    <span className="font-bold text-green-700">No pressure</span>
+                  <div className="bg-purple-50 border border-purple-300 p-3 rounded-lg text-center">
+                    <div className="text-2xl mb-2">🎓</div>
+                    <p className="text-xs font-semibold text-gray-800">Expert mentorship</p>
                   </div>
-                  <p className="text-xs text-gray-700 mt-2">😊 Owner grows steadily</p>
+                  <div className="bg-orange-50 border border-orange-300 p-3 rounded-lg text-center">
+                    <div className="text-2xl mb-2">🌐</div>
+                    <p className="text-xs font-semibold text-gray-800">Market linkage</p>
+                  </div>
                 </div>
               </div>
-
-              <p className="text-sm italic text-green-700 font-semibold">
-                Partnership = Support (grow together)
-              </p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Buttons */}
-      <div className="flex gap-2">
-        {selectedOption === 'partnership' && (
+      {/* Buttons - Only show when selection is made */}
+      {selectedOption && (
+        <div className="flex gap-3">
+          <button
+            onClick={() => {
+              setSelectedOption(null);
+              setShowOutcome(null);
+            }}
+            className="flex-1 bg-white text-gray-700 font-semibold py-3 rounded-lg border border-gray-300 hover:bg-gray-50 transition-all"
+          >
+            Change Mind
+          </button>
           <button
             onClick={handleProceed}
-            className="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition-all"
+            className={`flex-1 text-white font-semibold py-3 rounded-lg transition-all ${
+              selectedOption === 'loan'
+                ? 'bg-red-600 hover:bg-red-700'
+                : 'bg-green-600 hover:bg-green-700'
+            }`}
           >
-            Continue →
+            {selectedOption === 'loan' ? 'See EMI Details →' : 'Continue →'}
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       <style>{`
         @keyframes fadeIn {
