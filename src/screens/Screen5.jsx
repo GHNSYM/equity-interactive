@@ -90,7 +90,7 @@ Learn how equity partnerships can help your business grow!
       {/* Brand Statement */}
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-5 mb-4 border-2 border-blue-400">
         <p className="text-center text-gray-800 font-bold text-base leading-relaxed">
-          This is what Quiver does — connects you with a partner who invests, mentors, and grows with you.
+          "Quiver is your investor, your mentor, and your market — all in one."
         </p>
       </div>
 
