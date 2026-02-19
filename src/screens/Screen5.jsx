@@ -25,7 +25,7 @@ Learn how equity partnerships can help your business grow!
 #RuralEntrepreneur #BusinessGrowth #EquityPartnership #Startup
     `;
 
-    const shareUrl = 'https://equity-interactive.example.com'; // Update with actual URL
+    const shareUrl = 'https://equity-interactive.vercel.app'; // Update with actual URL
 
     if (platform === 'whatsapp') {
       window.open(
