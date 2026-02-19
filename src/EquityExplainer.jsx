@@ -4,30 +4,75 @@ import Screen2 from './screens/Screen2';
 import Screen3 from './screens/Screen3';
 import Screen4 from './screens/Screen4';
 import Screen5 from './screens/Screen5';
+import ScreenEMI from './screens/ScreenEMI';
 
 export default function EquityExplainer() {
   const [currentScreen, setCurrentScreen] = useState(1);
+  const [screenHistory, setScreenHistory] = useState([1]);
   const [chosenPath, setChosenPath] = useState(null); // 'loan' or 'partnership'
   const [businessMetrics, setBusinessMetrics] = useState({
-    initialIncome: 50000,
-    requiredCapital: 500000,
-    expandedIncome: 90000,
+    currentSales: 50000,
+    profitMargin: 20,
+    requiredInvestment: 500000,
+    initialIncome: 10000,
+    expandedIncome: 18000,
     jobsCreated: 3,
     ownershipBefore: 100,
     ownershipAfter: 80,
   });
 
+  const handleUpdateMetrics = (newMetrics) => {
+    setBusinessMetrics((prev) => ({
+      ...prev,
+      ...newMetrics,
+    }));
+  };
+
+  const handleNavigateTo = (screenNumber) => {
+    setScreenHistory([...screenHistory, screenNumber]);
+    setCurrentScreen(screenNumber);
+  };
+
+  const handleBack = () => {
+    if (screenHistory.length > 1) {
+      const newHistory = screenHistory.slice(0, -1);
+      setScreenHistory(newHistory);
+      setCurrentScreen(newHistory[newHistory.length - 1]);
+    }
+  };
+
   const screens = {
-    1: <Screen1 onNext={() => setCurrentScreen(2)} />,
+    1: (
+      <Screen1 
+        onNext={() => handleNavigateTo(2)}
+        onUpdateMetrics={handleUpdateMetrics}
+        businessMetrics={businessMetrics}
+      />
+    ),
     2: (
       <Screen2
+        businessMetrics={businessMetrics}
         onChooseLoan={() => {
           setChosenPath('loan');
-          setCurrentScreen(3);
+          handleNavigateTo('emi');
         }}
         onChoosePartnership={() => {
           setChosenPath('partnership');
-          setCurrentScreen(3);
+          handleNavigateTo(3);
+        }}
+        onBack={handleBack}
+      />
+    ),
+    emi: (
+      <ScreenEMI
+        businessMetrics={businessMetrics}
+        onBack={handleBack}
+        onContinueWithLoan={() => {
+          handleNavigateTo(3);
+        }}
+        onChoosePartnership={() => {
+          setChosenPath('partnership');
+          handleNavigateTo(3);
         }}
       />
     ),
@@ -35,13 +80,15 @@ export default function EquityExplainer() {
       <Screen3
         chosenPath={chosenPath}
         businessMetrics={businessMetrics}
-        onNext={() => setCurrentScreen(4)}
+        onNext={() => handleNavigateTo(4)}
+        onBack={handleBack}
       />
     ),
     4: (
       <Screen4
         businessMetrics={businessMetrics}
-        onNext={() => setCurrentScreen(5)}
+        onNext={() => handleNavigateTo(5)}
+        onBack={handleBack}
       />
     ),
     5: (
@@ -49,8 +96,20 @@ export default function EquityExplainer() {
         businessMetrics={businessMetrics}
         onRestart={() => {
           setCurrentScreen(1);
+          setScreenHistory([1]);
           setChosenPath(null);
+          setBusinessMetrics({
+            currentSales: 50000,
+            profitMargin: 20,
+            requiredInvestment: 500000,
+            initialIncome: 10000,
+            expandedIncome: 18000,
+            jobsCreated: 3,
+            ownershipBefore: 100,
+            ownershipAfter: 80,
+          });
         }}
+        onBack={handleBack}
       />
     ),
   };
@@ -60,9 +119,18 @@ export default function EquityExplainer() {
       <div className="max-w-md mx-auto h-screen flex flex-col">
         {/* Header with progress */}
         <div className="bg-white shadow-sm px-4 py-3 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-green-700">Grow Business</h1>
-          <div className="text-sm text-gray-600">
-            Screen {currentScreen}/5
+          {currentScreen !== 1 && (
+            <button
+              onClick={handleBack}
+              className="text-lg font-bold text-gray-700 hover:text-gray-900 transition-all"
+            >
+              ← Back
+            </button>
+          )}
+          {currentScreen === 1 && <div className="w-8"></div>}
+          <h1 className="text-lg font-bold text-green-700">Grow Business</h1>
+          <div className="text-sm text-gray-600 min-w-fit">
+            {currentScreen === 'emi' ? 'EMI' : `Screen ${currentScreen}/5`}
           </div>
         </div>
 
@@ -70,7 +138,7 @@ export default function EquityExplainer() {
         <div className="bg-gray-200 h-1">
           <div
             className="bg-green-600 h-1 transition-all duration-500"
-            style={{ width: `${(currentScreen / 5) * 100}%` }}
+            style={{ width: `${currentScreen === 'emi' ? '25%' : (currentScreen / 5) * 100}%` }}
           ></div>
         </div>
 

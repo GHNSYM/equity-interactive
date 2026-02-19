@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Screen3({ chosenPath, businessMetrics, onNext }) {
+export default function Screen3({ chosenPath, businessMetrics, onNext, onBack }) {
   const [animateGrowth, setAnimateGrowth] = useState(false);
   const [currentIncome, setCurrentIncome] = useState(businessMetrics.initialIncome);
 
@@ -41,7 +41,7 @@ export default function Screen3({ chosenPath, businessMetrics, onNext }) {
           <div className="text-4xl mb-2">🏪</div>
           <div className="bg-yellow-100 text-yellow-900 rounded p-2">
             <p className="text-xs font-bold">Small Shop</p>
-            <p className="text-2xl font-bold">₹50K/mo</p>
+            <p className="text-2xl font-bold">₹{businessMetrics.initialIncome.toLocaleString('en-IN')}/mo</p>
           </div>
         </div>
 
@@ -93,7 +93,7 @@ export default function Screen3({ chosenPath, businessMetrics, onNext }) {
           <p className="font-semibold text-gray-800 mb-3">Income Growth:</p>
           <div className="space-y-2">
             <div>
-              <p className="text-xs text-gray-600 mb-1">Before: ₹50,000</p>
+              <p className="text-xs text-gray-600 mb-1">Before: ₹{businessMetrics.initialIncome.toLocaleString('en-IN')}</p>
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <div
                   className="bg-yellow-500 h-3 rounded-full"
@@ -102,19 +102,19 @@ export default function Screen3({ chosenPath, businessMetrics, onNext }) {
               </div>
             </div>
             <div>
-              <p className="text-xs text-gray-600 mb-1">After: ₹90,000</p>
+              <p className="text-xs text-gray-600 mb-1">After: ₹{businessMetrics.expandedIncome.toLocaleString('en-IN')}</p>
               <div className="w-full bg-gray-200 rounded-full h-3">
                 <div
                   className="bg-green-600 h-3 rounded-full transition-all duration-1000"
                   style={{
-                    width: `${(currentIncome / 90000) * 100}%`,
+                    width: `${(currentIncome / businessMetrics.expandedIncome) * 100}%`,
                   }}
                 ></div>
               </div>
             </div>
           </div>
           <p className="text-lg font-bold text-green-700 text-center mt-3">
-            📈 80% Growth!
+            📈 {Math.round(((businessMetrics.expandedIncome - businessMetrics.initialIncome) / businessMetrics.initialIncome) * 100)}% Growth!
           </p>
         </div>
       )}

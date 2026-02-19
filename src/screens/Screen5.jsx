@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Screen5({ businessMetrics, onRestart }) {
+export default function Screen5({ businessMetrics, onRestart, onBack }) {
   const [showMetrics, setShowMetrics] = useState(false);
   const [copiedMessage, setCopiedMessage] = useState('');
 
@@ -11,12 +11,14 @@ export default function Screen5({ businessMetrics, onRestart }) {
   }, []);
 
   const handleShare = async (platform) => {
+    const growthPercentage = Math.round(((businessMetrics.expandedIncome - businessMetrics.initialIncome) / businessMetrics.initialIncome) * 100);
     const message = `
 🎊 मैंने अपना व्यवसाय बढ़ाया!
 
 I just grew my rural business with the help of an investment partner!
-- Business Income: ₹50K → ₹90K/month
-- New Jobs Created: 3
+- Business Income: ₹${businessMetrics.initialIncome.toLocaleString('en-IN')} → ₹${businessMetrics.expandedIncome.toLocaleString('en-IN')}/month
+- Growth: ${growthPercentage}%
+- New Jobs Created: ${businessMetrics.jobsCreated}
 - Community Impact: Positive
 
 Learn how equity partnerships can help your business grow!
@@ -64,7 +66,7 @@ Learn how equity partnerships can help your business grow!
               <div className="flex-1">
                 <p className="text-sm text-gray-600">Revenue Growth</p>
                 <p className="text-lg font-bold text-green-700">
-                  ₹50K → ₹90K/month (80% Growth)
+                  ₹{businessMetrics.initialIncome.toLocaleString('en-IN')} → ₹{businessMetrics.expandedIncome.toLocaleString('en-IN')}/month ({Math.round(((businessMetrics.expandedIncome - businessMetrics.initialIncome) / businessMetrics.initialIncome) * 100)}% Growth)
                 </p>
               </div>
             </div>
@@ -77,7 +79,7 @@ Learn how equity partnerships can help your business grow!
               <div className="flex-1">
                 <p className="text-sm text-gray-600">Jobs Created</p>
                 <p className="text-lg font-bold text-blue-700">
-                  3 New Workers Employed
+                  {businessMetrics.jobsCreated} New Workers Employed
                 </p>
               </div>
             </div>

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 
-export default function Screen4({ businessMetrics, onNext }) {
+export default function Screen4({ businessMetrics, onNext, onBack }) {
   const [showPayoutDetails, setShowPayoutDetails] = useState(false);
 
-  const monthlySales = 450000;
-  const monthlyRevenue = 90000; // 90% of sales (15% profit margin)
+  // Calculate based on user inputs
+  const monthlyRevenue = businessMetrics.expandedIncome;
+  const profitMargin = businessMetrics.profitMargin;
+  const monthlySales = Math.round((monthlyRevenue * 100) / (profitMargin || 100)); // Back-calculate sales from revenue
   const royaltyPercentage = 3;
-  const royaltyAmount = (monthlySales * royaltyPercentage) / 100; // 3% of SALES
+  const royaltyAmount = Math.round((monthlySales * royaltyPercentage) / 100); // 3% of SALES
   const ownerEarnings = monthlyRevenue - royaltyAmount;
-  const investorEarnings = royaltyAmount;
 
   return (
     <div className="px-4 py-6 h-full flex flex-col justify-between">
@@ -109,8 +110,8 @@ export default function Screen4({ businessMetrics, onNext }) {
 
       {/* Income Breakdown */}
       <div className="bg-white border-2 border-gray-300 rounded-lg p-4 mb-6">
-        <p className="font-semibold text-gray-800 mb-2">Monthly Sales: ₹4,50,000</p>
-        <p className="text-xs text-gray-600 mb-3">(Your Revenue/Profit: ₹90,000 after costs)</p>
+        <p className="font-semibold text-gray-800 mb-2">Monthly Sales: ₹{monthlySales.toLocaleString('en-IN')}</p>
+        <p className="text-xs text-gray-600 mb-3">(Your Revenue/Profit: ₹{monthlyRevenue.toLocaleString('en-IN')} after costs)</p>
 
         <div className="space-y-3">
           {/* You earn */}
@@ -143,7 +144,7 @@ export default function Screen4({ businessMetrics, onNext }) {
               </div>
               <div className="text-right">
                 <p className="text-2xl font-bold text-blue-700">
-                  ₹{Math.floor(investorEarnings).toLocaleString('en-IN')}
+                  ₹{Math.floor(royaltyAmount).toLocaleString('en-IN')}
                 </p>
                 <p className="text-xs text-blue-600">3% Royalty</p>
               </div>
@@ -155,13 +156,13 @@ export default function Screen4({ businessMetrics, onNext }) {
           <div className="mt-4 pt-4 border-t-2 border-gray-300 animate-slideDown">
             <p className="text-sm font-semibold text-gray-700 mb-2">How it Works:</p>
             <div className="text-xs text-gray-600 space-y-2 bg-gray-50 p-3 rounded">
-              <p className="font-semibold text-gray-800">Monthly Sales: ₹4,50,000</p>
-              <p className="text-gray-700">Your Revenue (Profit): ₹90,000 (after business costs)</p>
+              <p className="font-semibold text-gray-800">Monthly Sales: ₹{monthlySales.toLocaleString('en-IN')}</p>
+              <p className="text-gray-700">Your Revenue (Profit): ₹{monthlyRevenue.toLocaleString('en-IN')} (after business costs)</p>
               <hr className="my-2 border-gray-300" />
-              <p className="text-gray-700"><span className="font-bold">Partner's Royalty:</span> 3% × ₹4,50,000 (Sales) = ₹{Math.floor(investorEarnings).toLocaleString('en-IN')}</p>
-              <p className="text-gray-700"><span className="font-bold">You Earn:</span> ₹90,000 (Revenue) - ₹{Math.floor(investorEarnings).toLocaleString('en-IN')} (Royalty) = ₹{Math.floor(ownerEarnings).toLocaleString('en-IN')}</p>
+              <p className="text-gray-700"><span className="font-bold">Partner's Royalty:</span> 3% × ₹{monthlySales.toLocaleString('en-IN')} (Sales) = ₹{Math.floor(royaltyAmount).toLocaleString('en-IN')}</p>
+              <p className="text-gray-700"><span className="font-bold">You Earn:</span> ₹{monthlyRevenue.toLocaleString('en-IN')} (Revenue) - ₹{Math.floor(royaltyAmount).toLocaleString('en-IN')} (Royalty) = ₹{Math.floor(ownerEarnings).toLocaleString('en-IN')}</p>
               <hr className="my-2 border-gray-300" />
-              <p className="text-green-700 font-semibold">✓ You kept ₹87,000 while growing your business!</p>
+              <p className="text-green-700 font-semibold">✓ You kept ₹{Math.floor(ownerEarnings).toLocaleString('en-IN')} while growing your business!</p>
             </div>
           </div>
         )}
