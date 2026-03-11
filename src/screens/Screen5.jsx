@@ -1,152 +1,82 @@
 import React, { useState, useEffect } from 'react';
+import { Card, fmt, PillBadge } from '../components/helpers';
 
-export default function Screen5({ businessMetrics, onRestart, onBack }) {
-  const [showMetrics, setShowMetrics] = useState(false);
-  const [copiedMessage, setCopiedMessage] = useState('');
+// ─── SCREEN 5 ────────────────────────────────────────────────────────────────
+export default function Screen5({ businessMetrics, onRestart, t }) {
+  const [show, setShow] = useState(false);
+  const [copied, setCopied] = useState(false);
+  useEffect(() => { setTimeout(() => setShow(true), 400); }, []);
 
-  useEffect(() => {
-    // Show metrics with delay
-    const timer = setTimeout(() => setShowMetrics(true), 500);
-    return () => clearTimeout(timer);
-  }, []);
+  const growth = Math.round(((businessMetrics.expandedIncome - businessMetrics.initialIncome) / businessMetrics.initialIncome) * 100);
 
-  const handleShare = async (platform) => {
-    const growthPercentage = Math.round(((businessMetrics.expandedIncome - businessMetrics.initialIncome) / businessMetrics.initialIncome) * 100);
-    const message = `
-🎊 मैंने अपना व्यवसाय बढ़ाया!
+  const shareText = `🎊 मैंने अपना व्यवसाय बढ़ाया / I grew my business!\n\n• Income: ₹${fmt(businessMetrics.initialIncome)} → ₹${fmt(businessMetrics.expandedIncome)}/month\n• Growth: ${growth}%\n\nLearn how Quiver equity partnerships help rural entrepreneurs grow!\n#RuralEntrepreneur #Quiver #BusinessGrowth`;
 
-I just grew my rural business with the help of an investment partner!
-- Business Income: ₹${businessMetrics.initialIncome.toLocaleString('en-IN')} → ₹${businessMetrics.expandedIncome.toLocaleString('en-IN')}/month
-- Growth: ${growthPercentage}%
-- New Jobs Created: ${businessMetrics.jobsCreated}
-- Community Impact: Positive
-
-Learn how equity partnerships can help your business grow!
-#RuralEntrepreneur #BusinessGrowth #EquityPartnership #Startup
-    `;
-
-    const shareUrl = 'https://equity-interactive.vercel.app'; // Update with actual URL
-
-    if (platform === 'whatsapp') {
-      window.open(
-        `https://wa.me/?text=${encodeURIComponent(message + '\n\n' + shareUrl)}`,
-        '_blank'
-      );
-    } else if (platform === 'copy') {
-      navigator.clipboard.writeText(message);
-      setCopiedMessage('Copied to clipboard!');
-      setTimeout(() => setCopiedMessage(''), 2000);
-    }
-  };
+  const shareWA = () => window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, "_blank");
+  const copyText = () => { navigator.clipboard.writeText(shareText); setCopied(true); setTimeout(() => setCopied(false), 2500); };
 
   return (
-    <div className="px-4 py-6 h-full flex flex-col justify-between">
-      {/* Title */}
-      <div className="text-center mb-4">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          🎊 आपकी सफलता!
-        </h2>
-        <p className="text-sm text-gray-600">Your Success Story</p>
+    <div className="px-4 py-6 space-y-5">
+      {/* Celebration Hero */}
+      <div className="bg-gradient-to-br from-amber-400 via-orange-400 to-red-400 rounded-3xl p-6 text-center text-white shadow-xl shadow-orange-200">
+        <div className="text-6xl mb-2" style={{ animation: "bounce 1s infinite" }}>🎉</div>
+        <h2 className="text-2xl font-black">{t.s5Complete}</h2>
+        <p className="text-orange-100 text-sm mt-1">{t.s5Sub}</p>
       </div>
 
-      {/* Success Visual */}
-      <div className="bg-gradient-to-br from-yellow-100 to-green-100 rounded-2xl p-8 mb-4 text-center">
-        <div className="text-8xl mb-4 animate-bounce">🎉</div>
-        <p className="text-2xl font-bold text-gray-800">Business Expansion Complete!</p>
-        <p className="text-sm text-gray-600 mt-2">आपका व्यवसाय फल-फूल रहा है</p>
-      </div>
-
-      {/* Impact Metrics */}
-      {showMetrics && (
-        <div className="space-y-3 mb-6 animate-fadeIn">
-          {/* Revenue */}
-          <div className="bg-white border-l-4 border-green-600 rounded-lg p-4">
+      {/* Impact Cards */}
+      {show && (
+        <div className="space-y-3">
+          <Card className="p-4 border-l-4 border-emerald-500">
             <div className="flex items-center gap-3">
               <span className="text-3xl">📈</span>
               <div className="flex-1">
-                <p className="text-sm text-gray-600">Revenue Growth</p>
-                <p className="text-lg font-bold text-green-700">
-                  ₹{businessMetrics.initialIncome.toLocaleString('en-IN')} → ₹{businessMetrics.expandedIncome.toLocaleString('en-IN')}/month ({Math.round(((businessMetrics.expandedIncome - businessMetrics.initialIncome) / businessMetrics.initialIncome) * 100)}% Growth)
-                </p>
+                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">{t.s5Growth}</p>
+                <p className="font-black text-gray-900 text-base">₹{fmt(businessMetrics.initialIncome)} → ₹{fmt(businessMetrics.expandedIncome)}/mo</p>
+                <PillBadge label={`+${growth}% Growth`} color="green" />
               </div>
             </div>
-          </div>
-
-          {/* Jobs Created */}
-          <div className="bg-white border-l-4 border-blue-600 rounded-lg p-4">
+          </Card>
+          <Card className="p-4 border-l-4 border-blue-500">
             <div className="flex items-center gap-3">
               <span className="text-3xl">👥</span>
-              <div className="flex-1">
-                <p className="text-sm text-gray-600">Jobs Created</p>
-                <p className="text-lg font-bold text-blue-700">
-                  New Workers Employed
-                </p>
+              <div>
+                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">{t.s5Jobs}</p>
+                <p className="font-black text-gray-900">{t.s5JobsVal}</p>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
       )}
 
-      {/* Brand Statement */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-5 mb-4 border-2 border-blue-400">
-        <p className="text-center text-gray-800 font-bold text-base leading-relaxed">
-          "Quiver is your investor, your mentor, and your market — all in one."
-        </p>
+      {/* Brand Quote */}
+      <div className="bg-gradient-to-r from-emerald-600 to-blue-700 rounded-2xl p-5 text-center shadow-lg">
+        <p className="text-white font-black text-base leading-relaxed">{t.s5Brand}</p>
       </div>
 
-      {/* Share Section */}
-      <div className="text-center mb-4">
-        <p className="text-sm font-semibold text-gray-700 mb-3">
-          Share Your Success:
-        </p>
-        <div className="flex gap-2 justify-center flex-wrap">
-          <button
-            onClick={() => handleShare('whatsapp')}
-            className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors"
-          >
-            <span>📤</span> Share on WhatsApp
+      {/* Share */}
+      <div className="text-center">
+        <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">{t.s5Share}</p>
+        <div className="flex gap-2 justify-center">
+          <button onClick={shareWA}
+            className="flex items-center gap-2 bg-green-500 text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-green-600 transition-all shadow-md">
+            📤 {t.s5WhatsApp}
           </button>
-          <button
-            onClick={() => handleShare('copy')}
-            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors"
-          >
-            <span>📋</span> Copy Text
+          <button onClick={copyText}
+            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shadow-md">
+            {copied ? `✓ ${t.s5Copied}` : `📋 ${t.s5Copy}`}
           </button>
         </div>
-        {copiedMessage && (
-          <p className="text-sm text-green-600 font-semibold mt-2">{copiedMessage}</p>
-        )}
       </div>
 
-      {/* User Emotion */}
-      <div className="text-center mb-4">
-        <p className="text-lg italic text-green-700 font-semibold">
-          "I built this with Quiver."
-        </p>
+      <div className="text-center">
+        <p className="text-base italic text-emerald-700 font-black">{t.s5Quote}</p>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex gap-3">
-        <button
-          onClick={onRestart}
-          className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-4 rounded-xl text-sm hover:shadow-lg transition-all duration-300 transform hover:scale-105"
-        >
-          🔁 Try Another Business
-        </button>
-      </div>
-
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.6s ease-out;
-        }
-      `}</style>
-        <div>
-          <br></br>
-        </div>
+      <button onClick={onRestart}
+        className="w-full bg-gradient-to-r from-gray-800 to-gray-900 text-white font-black py-4 rounded-2xl hover:opacity-90 transition-all">
+        🔁 {t.s5Restart}
+      </button>
+      <div className="h-4" />
     </div>
   );
 }
