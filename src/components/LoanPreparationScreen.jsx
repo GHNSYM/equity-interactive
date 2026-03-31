@@ -1,46 +1,70 @@
 import React from 'react';
-import { Card, fmt } from '../components/helpers';
 
-// ─── LOAN PREP ────────────────────────────────────────────────────────────────
-export default function LoanPrep({ onRestart, t }) {
-  const tips = [
-    { icon: "📊", label: t.lp1Title, desc: t.lp1Desc, color: "blue" },
-    { icon: "💳", label: t.lp2Title, desc: t.lp2Desc, color: "green" },
-    { icon: "📄", label: t.lp3Title, desc: t.lp3Desc, color: "purple" },
-    { icon: "🏦", label: t.lp4Title, desc: t.lp4Desc, color: "amber" },
+export default function LoanPrep({ onContinueEquity, t }) {
+  const schemes = [
+    { name: t.lpScheme1Name, desc: t.lpScheme1Desc, url: "https://www.jansamarth.in",        color: "emerald" },
+    { name: t.lpScheme2Name, desc: t.lpScheme2Desc, url: "https://udyamregistration.gov.in", color: "blue"    },
+    { name: t.lpScheme3Name, desc: t.lpScheme3Desc, url: "https://www.startupindia.gov.in",  color: "purple"  },
   ];
-  const borderColors = { blue: "border-blue-400", green: "border-emerald-400", purple: "border-purple-400", amber: "border-amber-400" };
-  const bgColors = { blue: "bg-blue-50", green: "bg-emerald-50", purple: "bg-purple-50", amber: "bg-amber-50" };
+
+  const colorMap = {
+    emerald: { card: "bg-emerald-50 border-emerald-200", icon: "bg-emerald-500", text: "text-emerald-700" },
+    blue:    { card: "bg-blue-50 border-blue-200",       icon: "bg-blue-500",    text: "text-blue-700"    },
+    purple:  { card: "bg-purple-50 border-purple-200",   icon: "bg-purple-500",  text: "text-purple-700"  },
+  };
 
   return (
     <div className="px-4 py-6 space-y-5">
+
+      {/* Hero */}
       <div className="text-center">
-        <div className="text-5xl mb-3">📋</div>
-        <h2 className="text-2xl font-black text-gray-900">{t.lpTitle}</h2>
-        <p className="text-sm text-gray-500 mt-1">{t.lpSub}</p>
+        <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-1.5 mb-3">
+          <span className="text-blue-600 text-sm font-semibold">Goverment Portals</span>
+        </div>
+        <h2 className="text-2xl font-black text-gray-900 leading-tight">{t.lpExploreTitle}</h2>
+        <p className="text-sm text-gray-500 mt-1 max-w-xs mx-auto">{t.lpExploreSub}</p>
       </div>
 
-      <Card className="p-5 space-y-4">
-        <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">{t.lpWhat}</p>
-        {tips.map(tip => (
-          <div key={tip.label} className={`flex gap-3 p-3 rounded-xl border-l-4 ${borderColors[tip.color]} ${bgColors[tip.color]}`}>
-            <span className="text-2xl">{tip.icon}</span>
-            <div>
-              <p className="font-bold text-gray-800 text-sm">{tip.label}</p>
-              <p className="text-xs text-gray-600 mt-0.5">{tip.desc}</p>
-            </div>
-          </div>
-        ))}
-      </Card>
-
-      <div className="bg-amber-50 border border-amber-300 rounded-2xl p-4">
-        <p className="text-sm text-gray-800"><span className="font-black">💡 </span>{t.lpTip}</p>
+      {/* Links */}
+      <div className="space-y-3">
+        {schemes.map(({ name, desc, url, color }) => {
+          const c = colorMap[color];
+          return (
+            <a
+              key={name}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-3 border rounded-2xl p-4 ${c.card} active:scale-98 transition-all`}
+            >
+              <div className={`w-10 h-10 rounded-xl ${c.icon} flex items-center justify-center shrink-0`}>
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className={`font-black text-sm ${c.text}`}>{name}</p>
+                <p className="text-xs text-gray-500 mt-0.5">{desc}</p>
+              </div>
+              <svg className={`w-4 h-4 shrink-0 ${c.text}`} fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          );
+        })}
       </div>
 
-      <button onClick={onRestart}
-        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-black py-4 rounded-2xl hover:opacity-90 transition-all shadow-lg shadow-blue-200">
-        🔁 {t.lpRestart}
+      {/* Disclaimer */}
+      <p className="text-xs text-gray-400 text-center px-2">{t.lpDisclaimer}</p>
+
+      {/* Equity CTA */}
+      <button
+        onClick={onContinueEquity}
+        className="w-full py-4 rounded-2xl text-base font-black border-2 border-emerald-500 text-emerald-600 hover:bg-emerald-50 transition-all duration-200 active:scale-98"
+      >
+        {t.lpContinueEquity}
       </button>
+
       <div className="h-4" />
     </div>
   );

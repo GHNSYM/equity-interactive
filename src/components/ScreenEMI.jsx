@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {Card, fmt} from './helpers';
 
 // ─── SCREEN EMI ───────────────────────────────────────────────────────────────
-export default function ScreenEMI({ businessMetrics, onContinueWithLoan, onChoosePartnership, t }) {
+export default function ScreenEMI({ businessMetrics, onContinueWithLoan, onContinuePartnership, t }) {
   const [duration, setDuration] = useState(36);
   const { requiredInvestment: loan, initialIncome: income } = businessMetrics;
   const r = 0.12 / 12;
@@ -67,14 +67,15 @@ export default function ScreenEMI({ businessMetrics, onContinueWithLoan, onChoos
       </Card>
 
       <div className="space-y-2">
-        <button onClick={onChoosePartnership}
-          className="w-full bg-emerald-600 text-white font-black py-3.5 rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200">
-          {t.sEMIPartner}
-        </button>
-        <button onClick={onContinueWithLoan}
+      <button onClick={onContinueWithLoan}
           className="w-full bg-white text-blue-600 font-bold py-3.5 rounded-xl border-2 border-blue-500 hover:bg-blue-50 transition-all">
           {t.sEMIContinue}
         </button>
+        <button onClick={onContinuePartnership}
+          className="w-full bg-emerald-600 text-white font-black py-3.5 rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200">
+          {t.sEMIPartner}
+        </button>
+
       </div>
       <div className="h-4" />
     </div>
