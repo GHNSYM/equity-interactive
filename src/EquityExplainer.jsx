@@ -24,12 +24,17 @@ export default function EquityExplainer() {
   const [metrics, setMetrics] = useState(defaultMetrics);
   const t = T[lang];
 
-  const nav = (s) => { setHistory(h => [...h, s]); setScreen(s); };
+  const nav = (s) => { 
+    setHistory(h => [...h, s]); 
+    setScreen(s);
+    window.history.pushState({ screen: s }, '', window.location.href);
+  };
   const back = () => {
     if (history.length > 1) {
       const h = history.slice(0, -1);
       setHistory(h);
       setScreen(h[h.length - 1]);
+      window.history.back();
     }
   };
   const restart = () => { setScreen(0); setHistory([0]); setMetrics(defaultMetrics); };
@@ -41,6 +46,24 @@ export default function EquityExplainer() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [screen]);
+
+  useEffect(() => {
+    const handlePopState = (event) => {
+      if (event.state && event.state.screen !== undefined) {
+        setScreen(event.state.screen);
+        setHistory(h => {
+          const newHistory = [...h];
+          if (newHistory[newHistory.length - 1] !== event.state.screen) {
+            newHistory.pop();
+          }
+          return newHistory;
+        });
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   return (
     <>
