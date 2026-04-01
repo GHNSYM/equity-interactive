@@ -4,8 +4,9 @@ import {Card, fmt} from './helpers';
 // ─── SCREEN EMI ───────────────────────────────────────────────────────────────
 export default function ScreenEMI({ businessMetrics, onContinueWithLoan, onContinuePartnership, t }) {
   const [duration, setDuration] = useState(36);
+  const [interestRate, setInterestRate] = useState(9.5);
   const { requiredInvestment: loan, initialIncome: income } = businessMetrics;
-  const r = 0.12 / 12;
+  const r = interestRate / 100 / 12;
   const n = duration;
   const emi = Math.ceil((loan * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
   const total = emi * n;
@@ -20,8 +21,8 @@ export default function ScreenEMI({ businessMetrics, onContinueWithLoan, onConti
       </div>
 
       {/* Slider */}
-      <Card className="p-5">
-        <div className="flex justify-between items-center mb-3">
+      <Card className="p-4">
+        <div className="flex justify-between items-center mb-1">
           <p className="font-bold text-gray-700 text-sm">{t.sEMIDuration}</p>
           <span className="text-2xl font-black text-blue-600">{Math.round(duration / 12)} {t.sEMIYrs}</span>
         </div>
@@ -30,6 +31,20 @@ export default function ScreenEMI({ businessMetrics, onContinueWithLoan, onConti
           className="w-full h-2 rounded-full appearance-none cursor-pointer accent-blue-600 bg-gray-200" />
         <div className="flex justify-between text-xs text-gray-400 mt-2">
           <span>1 yr</span><span>7 yrs</span>
+        </div>
+      </Card>
+
+      {/* Interest Rate Slider */}
+      <Card className="p-4">
+        <div className="flex justify-between items-center mb-1">
+          <p className="font-bold text-gray-700 text-sm">{t.sEMIRateLabel}</p>
+          <span className="text-2xl font-black text-blue-600">{interestRate.toFixed(1)}%</span>
+        </div>
+        <input type="range" min="6.5" max="12.5" step="0.1" value={interestRate}
+          onChange={e => setInterestRate(parseFloat(e.target.value))}
+          className="w-full h-2 rounded-full appearance-none cursor-pointer accent-blue-600 bg-gray-200" />
+        <div className="flex justify-between text-xs text-gray-400 mt-2">
+          <span>6.5%</span><span>12.5%</span>
         </div>
       </Card>
 
@@ -49,7 +64,7 @@ export default function ScreenEMI({ businessMetrics, onContinueWithLoan, onConti
           </div>
           <div className="bg-gray-50 rounded-xl p-3">
             <p className="text-xs text-gray-500 mb-0.5">{t.sEMIRate}</p>
-            <p className="font-black text-gray-800">12% p.a.</p>
+            <p className="font-black text-gray-800">{interestRate.toFixed(1)}% p.a.</p>
           </div>
           <div className="bg-gray-50 rounded-xl p-3">
             <p className="text-xs text-gray-500 mb-0.5">{t.sEMIInterest}</p>

@@ -12,7 +12,7 @@ export default function Landing({ onStart, t }) {
 
       {/* Center content */}
       <div className="relative z-10 flex-1 py-16 flex flex-col items-center justify-center text-center">
-        <h2 className="mt-2 p-4 text-4xl sm:text-5xl font-black leading-tight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-900 to-green-600">
+        <h2 className="p-4 text-4xl sm:text-5xl font-black leading-relaxed tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-900 to-green-600">
           {t.landingTitle}
         </h2>
 
@@ -30,7 +30,7 @@ export default function Landing({ onStart, t }) {
                 <path d="M12 6v2m0 8v2M9 9.5A2.5 2.5 0 0 1 12 7a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 0 0 5 2.5 2.5 0 0 0 3-2.5" />
               </svg>
             </div>
-            <span className="text-xs font-bold text-gray-700">Funding</span>
+            <span className="text-xs font-bold text-gray-700">{t.landingFunding}</span>
           </div>
 
           {/* Guidance */}
@@ -41,7 +41,7 @@ export default function Landing({ onStart, t }) {
                 <circle cx="12" cy="9" r="2.5" />
               </svg>
             </div>
-            <span className="text-xs font-bold text-gray-700">Guidance</span>
+            <span className="text-xs font-bold text-gray-700">{t.landingMentorship}</span>
           </div>
 
           {/* Tools */}
@@ -53,7 +53,7 @@ export default function Landing({ onStart, t }) {
                 <path d="M2 12l10 4 10-4" />
               </svg>
             </div>
-            <span className="text-xs font-bold text-gray-700">Tools</span>
+            <span className="text-xs font-bold text-gray-700">{t.landingTools}</span>
           </div>
         </div>
       </div>

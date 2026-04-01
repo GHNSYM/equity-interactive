@@ -37,14 +37,32 @@ export function StatRow({ label, value, sub, color = "text-gray-800" }) {
   );
 }
 
-// ─── LANGUAGE TOGGLE ─────────────────────────────────────────────────────────
+// ─── LANGUAGE DROPDOWN ─────────────────────────────────────────────────────
 export function LangToggle({ lang, setLang }) {
+  const languages = [
+    { code: 'en', label: 'English' },
+    { code: 'hi', label: 'हिंदी' },
+    { code: 'as', label: 'অসমীয়া' },
+    { code: 'mr', label: 'मराठी' }
+  ];
+
   return (
-    <button
-      onClick={() => setLang(lang === "en" ? "hi" : "en")}
-      className="flex items-center justify-center gap-1.5 text-xs font-bold py-1.5 rounded-full border-2 border-emerald-600 text-emerald-700 hover:bg-emerald-50 transition-all min-w-[90px] whitespace-nowrap"
+    <select
+      value={lang}
+      onChange={(e) => setLang(e.target.value)}
+      className="px-3 py-1.5 rounded-lg border-2 border-emerald-600 text-emerald-700 bg-white font-bold text-sm hover:bg-emerald-50 transition-all cursor-pointer appearance-none pr-8"
+      style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2310b981' d='M6 9L1 4h10z'/%3E%3C/svg%3E")`,
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'right 8px center',
+        paddingRight: '28px'
+      }}
     >
-      <span>{lang === "en" ? "हिंदी" : "English"}</span>
-    </button>
+      {languages.map(lang => (
+        <option key={lang.code} value={lang.code}>
+          {lang.label}
+        </option>
+      ))}
+    </select>
   );
 }
