@@ -6,6 +6,7 @@ import img2 from "../assets/image2.png";
 import img3 from "../assets/image3.png";
 import img4 from "../assets/image4.png";
 import img5 from "../assets/image5.png";
+import img6 from "../assets/image6.png";
 
 export default function Screen3({ businessMetrics, onNext, t }) {
   const [visibleSteps, setVisibleSteps] = useState(new Set());
@@ -39,11 +40,11 @@ export default function Screen3({ businessMetrics, onNext, t }) {
         <div className="space-y-1.5 mt-2">
           <div className="flex justify-between text-xs">
             <span className="text-gray-500">{t.s3MonthlyIncome}</span>
-            <span className="font-black text-gray-800">₹{fmt(businessMetrics.initialIncome)}</span>
+            <span className="font-black text-gray-800">₹{fmt(50000)}</span>
           </div>
           <div className="flex justify-between text-xs">
             <span className="text-gray-500">{t.s3FundingNeeded}</span>
-            <span className="font-black text-gray-800">₹{fmt(businessMetrics.requiredInvestment)}</span>
+            <span className="font-black text-gray-800">₹{fmt(700000)}</span>
           </div>
         </div>
       ),
@@ -74,7 +75,7 @@ export default function Screen3({ businessMetrics, onNext, t }) {
       content: (
         <div className="grid grid-cols-2 gap-1.5 mt-2">
           {[
-            { label: t.s3Investment, value: `₹${fmt(businessMetrics.requiredInvestment)}` },
+            { label: t.s3Investment, value: `₹${fmt(700000)}` },
             { label: t.s3ExitAfter, value: t.s3ExitVal },
           ].map(({ label, value }) => (
             <div key={label} className="bg-blue-50 rounded-xl p-2 text-center">
@@ -109,6 +110,24 @@ export default function Screen3({ businessMetrics, onNext, t }) {
     },
     {
       img: img5,
+      color: "amber",
+      tag: t.s3TagRisk,
+      title: t.s3TitleRisk,
+      content: (
+        <div className="mt-2 space-y-2">
+          {[t.s3Risk1, t.s3Risk2, t.s3Risk3].map((item, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <div className="w-3.5 h-3.5 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
+                <div className="w-1 h-1 rounded-full bg-amber-500" />
+              </div>
+              <p className="text-xs text-gray-600">{item}</p>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      img: img6,
       color: "emerald",
       tag: t.s3Tag5,
       title: t.s3Title5,
@@ -190,8 +209,8 @@ export default function Screen3({ businessMetrics, onNext, t }) {
                   </>
                 ) : (
                   <div className={`flex items-stretch ${isRight ? "flex-row-reverse" : "flex-row"}`}>
-                    <div className="shrink-0 w-36 overflow-hidden">
-                      <img src={step.img} alt={step.tag} className="w-full py-2 px-2 object-cover" />
+                    <div className="shrink-0 w-36 overflow-hidden rounded-l-2xl">
+                      <img src={step.img} alt={step.tag} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex flex-1 min-w-0 p-3 flex-col justify-center">
                       <div className="flex items-center gap-2 mb-1">
